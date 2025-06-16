@@ -1,18 +1,45 @@
 "use client";
 
+import { registerUser } from "@/app/actions/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { Loader } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function Page() {
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState("")
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setIsLoading(true);
+    setError("");
+    const formData = new FormData(e.currentTarget);
+    try {
+      const result = await registerUser(formData);
+      if (result?.success) {
+        toast.success("Registration successful! Please check your email to confirm your account.");
+      } else {
+        toast.error(result?.error || "An error occurred during registration");
+      }
+    } catch (err) {
+      toast.error("An unexpected error occurred. Please try again later.");
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
     <div className="bg-white rounded-2xl shadow-xl p-6">
       <div className="text-center mb-4">
         <h2 className="text-2xl font-bold text-navy-900">Create Account</h2>
       </div>
-      <form className="space-y-4">
+      
+      <form className="space-y-4" onSubmit={handleSubmit}>
         <div className="space-y-2">
           <Label htmlFor="name" className="text-navy-900">
             Full Name
@@ -25,9 +52,9 @@ export default function Page() {
             required
             className="border-gray-300 focus:border-orange-500 focus:ring-orange-500"
           />
-          <p className="text-xs text-red-600">
-            Password must be at least 8 characters long
-          </p>
+          {error && (
+            <p className="text-xs text-red-600">{error}</p>
+          )}
         </div>
 
         <div className="space-y-2">
@@ -42,9 +69,9 @@ export default function Page() {
             required
             className="border-gray-300 focus:border-orange-500 focus:ring-orange-500"
           />
-          <p className="text-xs text-red-600">
-            Password must be at least 8 characters long
-          </p>
+          {error && (
+            <p className="text-xs text-red-600">{error}</p>
+          )}
         </div>
 
         <div className="space-y-2">
@@ -60,16 +87,22 @@ export default function Page() {
             minLength={8}
             className="border-gray-300 focus:border-orange-500 focus:ring-orange-500"
           />
-          <p className="text-xs text-red-600">
-            Password must be at least 8 characters long
-          </p>
+          {error && (
+            <p className="text-xs text-red-600">{error}</p>
+          )}
         </div>
 
         <Button
           type="submit"
           className="w-full bg-navy-900 hover:bg-navy-800 text-white rounded-lg font-semibold transition-colors m-0"
+          disabled={isLoading}
         >
-          Create Account
+          {isLoading ? (
+            <>
+              <Loader className="animate-spin w-5 h-5 mr-2" />
+              Loading...
+            </>
+          ) : "Create Account"}
         </Button>
 
         <div className="relative">

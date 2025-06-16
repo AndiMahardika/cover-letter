@@ -1,19 +1,48 @@
+"use client";
+
+import { loginUser } from "@/app/actions/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { Loader } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
+import toast from "react-hot-toast";
 
-type Props = {};
+export default function Page() {
+const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState("");
+  const router = useRouter();
 
-export default function Page({}: Props) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setError("");
+
+    const formData = new FormData(e.currentTarget);
+
+    startTransition(async () => {
+      const result = await loginUser(formData);
+
+      if (result?.success) {
+        toast.success("Login successful!");
+        router.push("/"); // gunakan router.push bukan redirect()
+      } else {
+        const msg = result?.error || "An error occurred during login";
+        setError(msg);
+        toast.error(msg);
+      }
+    });
+  }
+
   return (
     <div className="bg-white rounded-2xl shadow-xl p-6">
       <div className="text-center mb-4">
         <h2 className="text-2xl font-bold text-navy-900">Login</h2>
       </div>
 
-      <form className="space-y-4">
+      <form className="space-y-4" onSubmit={handleSubmit}>
         <div className="space-y-2">
           <Label htmlFor="email" className="text-navy-900">
             Email
@@ -26,7 +55,9 @@ export default function Page({}: Props) {
             required
             className="border-gray-300 focus:border-orange-500 focus:ring-orange-500"
           />
-          <p className="text-red-600 text-xs">Error Simulation</p>
+          {error && (
+            <p className="text-red-600 text-xs">{error}</p>
+          )}
         </div>
 
         <div className="space-y-2">
@@ -49,14 +80,21 @@ export default function Page({}: Props) {
             required
             className="border-gray-300 focus:border-orange-500 focus:ring-orange-500"
           />
-          <p className="text-red-600 text-xs">Error Simulation</p>
+          {error && (
+            <p className="text-red-600 text-xs">{error}</p>
+          )}
         </div>
 
         <Button
           type="submit"
           className="w-full bg-navy-900 hover:bg-navy-800 text-white m-0 rounded-lg font-semibold transition-colors"
         >
-          Sign In
+          {isPending ? (
+            <>
+              <Loader className="animate-spin w-5 h-5 mr-2" />
+              Loading...
+            </>
+          ): "Sign Up"}
         </Button>
 
         <div className="relative">
