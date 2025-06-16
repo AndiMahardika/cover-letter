@@ -27,7 +27,7 @@ const [isPending, startTransition] = useTransition();
 
       if (result?.success) {
         toast.success("Login successful!");
-        router.push("/"); // gunakan router.push bukan redirect()
+        router.push("/dashboard/cover-letter");
       } else {
         const msg = result?.error || "An error occurred during login";
         setError(msg);
