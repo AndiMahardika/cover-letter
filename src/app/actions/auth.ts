@@ -55,7 +55,6 @@ export async function registerUser(formData: FormData) {
   }
 }
 
-
 export async function loginUser(formData: FormData) {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
@@ -74,6 +73,13 @@ export async function loginUser(formData: FormData) {
       console.log(error)
       return { success: false, error: error.message || "Login failed" };
     }
+
+    console.log(data.session)
+    
+    await supabase.auth.setSession({
+      access_token: data.session.access_token,
+      refresh_token: data.session.refresh_token,
+    });
 
     return { success: true, data };
   } catch (err) {

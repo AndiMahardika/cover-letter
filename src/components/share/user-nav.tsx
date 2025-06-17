@@ -11,8 +11,17 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar"
+import { supabase } from "@/lib/supabaseClient"
 
 export function UserNav() {
+  const handleLogout = async () => {
+    const {error} = await supabase.auth.signOut()
+    if (!error) {
+      window.location.href = "/"
+    }
+    // window.location.href = "/"
+  }
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -61,7 +70,7 @@ export function UserNav() {
               Settings
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-red-600">
+            <DropdownMenuItem className="text-red-600" onClick={handleLogout}>
               <LogOut className="mr-2 h-4 w-4" />
               Log out
             </DropdownMenuItem>

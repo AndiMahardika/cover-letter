@@ -11,13 +11,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { supabase } from "@/lib/supabaseClient"
 
 export function UserProfileHeader() {
-  const handleLogout = () => {
-    // In a real app, you would handle logout logic here
-    console.log("Logging out...")
-    // For demo purposes, redirect to auth page
-    window.location.href = "/auth"
+  const handleLogout = async () => {
+    const {error} = await supabase.auth.signOut()
+    if (!error) {
+      window.location.href = "/"
+    }
+    // window.location.href = "/"
   }
 
   return (
