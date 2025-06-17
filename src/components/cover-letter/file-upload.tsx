@@ -4,7 +4,8 @@ import type React from "react"
 
 import { useState, useRef } from "react"
 import { Button } from "@/components/ui/button"
-import { Upload, FileText, X, UploadCloud } from "lucide-react"
+import { Upload, FileText, X, UploadCloud, Loader } from "lucide-react"
+import { useStepsStore } from "@/store/stepStore"
 
 interface FileUploadProps {
   uploadedFile: File | null
@@ -15,6 +16,9 @@ export function FileUpload({ uploadedFile, onFileUpload }: FileUploadProps) {
   const [error, setError] = useState("")
   const [isDragActive, setIsDragActive] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { currentStep, nextStep } = useStepsStore()
 
   const validateFile = (file: File) => {
     if (file.size > 2 * 1024 * 1024) {
@@ -70,6 +74,26 @@ export function FileUpload({ uploadedFile, onFileUpload }: FileUploadProps) {
     }
   }
 
+  const handleUpload = async () => {
+    if (!uploadedFile) return;
+    setIsLoading(true);
+    const formData = new FormData();
+    formData.append("file", uploadedFile);
+
+    const res = await fetch("/api/upload-cv", {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await res.json();
+    setIsLoading(false);
+    localStorage.setItem("pdfText", data.doc)
+    if(data.doc){
+      nextStep()
+      console.log(currentStep)
+    }
+  };
+
   return (
     <div className="flex flex-col items-center justify-center w-full">
       <label
@@ -111,13 +135,22 @@ export function FileUpload({ uploadedFile, onFileUpload }: FileUploadProps) {
       {error && <p className="mt-2 text-sm text-red-500">{error}</p>}
       {uploadedFile && (
         <div className="space-x-2 mt-3">
-          <Button variant="destructive" size="sm" onClick={removeFile}>
+          <Button variant="destructive" size="sm" onClick={removeFile} disabled={isLoading}>
             <X />
             Remove File
           </Button>
-          <Button size="sm" onClick={removeFile}>
-            <UploadCloud />
-            Upload
+          <Button size="sm" onClick={handleUpload}>
+            { isLoading ? (
+              <>
+                <Loader className="animate-spin w-5 h-5 mr-2" />
+                Loading...
+              </>
+            ):(
+              <>
+                <UploadCloud />
+                Upload
+              </>
+            )}
           </Button>
         </div>
       )}

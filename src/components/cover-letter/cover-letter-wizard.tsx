@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label"
 import { Loader2, ExternalLink } from "lucide-react"
 import { Stepper } from "./stepper"
 import { FileUpload } from "./file-upload"
+import { useStepsStore } from "@/store/stepStore"
 
 interface CoverLetterWizardProps {
   uploadedFile: File | null
@@ -27,25 +28,14 @@ export function CoverLetterWizard({
   isGenerating,
   setIsGenerating,
 }: CoverLetterWizardProps) {
-  const [currentStep, setCurrentStep] = useState(1)
+  // const [currentStep, setCurrentStep] = useState(1)
+  const { currentStep, nextStep, prevStep, setStep } = useStepsStore()
 
   const steps = [
     { number: 1, title: "Upload CV", description: "Upload your resume" },
     { number: 2, title: "Job URL", description: "Enter job vacancy URL" },
     { number: 3, title: "Generate", description: "Create cover letter" },
   ]
-
-  const handleNext = () => {
-    if (currentStep < 3) {
-      setCurrentStep(currentStep + 1)
-    }
-  }
-
-  const handlePrevious = () => {
-    if (currentStep > 1) {
-      setCurrentStep(currentStep - 1)
-    }
-  }
 
   const handleGenerate = async () => {
     if (!uploadedFile || !jobUrl) return
