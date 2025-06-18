@@ -33,6 +33,7 @@ export function CoverLetterWizard({
   const [jobSource, setJobSource] = useState("")
   const [isLoadingUrl, setIsLoadingUrl] = useState(false)
   const [urlError, setUrlError] = useState<string | null>(null)
+  const [language, setLanguage] = useState("english")
 
   const steps = [
     { number: 1, title: "Upload CV", description: "Upload your resume" },
@@ -82,8 +83,10 @@ export function CoverLetterWizard({
   }
 
   const handleGenerate = async () => {
-    if (!uploadedFile || !jobUrl) return
-
+    const pdfText = localStorage.getItem("pdfText")
+    const jobData = localStorage.getItem("jobData")
+    console.log("PDF", pdfText)
+    console.log("Job", jobData)
     // setIsGenerating(true)
     // try {
     //   const formData = new FormData()
@@ -100,8 +103,6 @@ export function CoverLetterWizard({
     //   setIsGenerating(false)
     // }
   }
-
-  const canProceedToStep3 = uploadedFile !== null && jobUrl.trim() !== ""
 
   return (
     <div className="space-y-8">
@@ -202,25 +203,11 @@ export function CoverLetterWizard({
               </p>
             </div>
 
-            <div className="space-y-4">
-              <div className="p-4 bg-gray-50 rounded-lg border">
-                <h4 className="font-medium text-navy-900 mb-2">Summary:</h4>
-                <div className="space-y-2 text-sm">
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span>CV uploaded: {uploadedFile?.name}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span>Job URL provided</span>
-                  </div>
-                </div>
-              </div>
-
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <Button
                 onClick={handleGenerate}
-                disabled={!canProceedToStep3 || isGenerating}
-                className="w-full bg-green-600 hover:bg-green-700 text-white py-3 text-lg font-semibold"
+                disabled={isGenerating}
+                className="bg-navy-900 hover:bg-navy-800 text-white m-0 rounded-lg font-semibold transition-colors md:col-span-3"
               >
                 {isGenerating ? (
                   <>
@@ -231,6 +218,18 @@ export function CoverLetterWizard({
                   "Generate Cover Letter"
                 )}
               </Button>
+
+              <div className="">
+                <Select value={language} onValueChange={setLanguage}>
+                  <SelectTrigger className=" border-gray-300 focus:border-orange-500 focus:ring-orange-500">
+                    <SelectValue placeholder="Select language" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="english">English</SelectItem>
+                    <SelectItem value="indonesia">Indonesia</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
           </div>
         )}
