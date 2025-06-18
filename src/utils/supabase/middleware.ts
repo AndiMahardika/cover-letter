@@ -14,14 +14,19 @@ export async function updateSession(request: NextRequest) {
         getAll() {
           return request.cookies.getAll()
         },
+        // setAll(cookiesToSet) {
+        //   cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value))
+        //   supabaseResponse = NextResponse.next({
+        //     request,
+        //   })
+        //   cookiesToSet.forEach(({ name, value, options }) =>
+        //     supabaseResponse.cookies.set(name, value, options)
+        //   )
+        // },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value))
-          supabaseResponse = NextResponse.next({
-            request,
-          })
-          cookiesToSet.forEach(({ name, value, options }) =>
+          cookiesToSet.forEach(({ name, value, options }) => {
             supabaseResponse.cookies.set(name, value, options)
-          )
+          })
         },
       },
     }
@@ -38,8 +43,8 @@ export async function updateSession(request: NextRequest) {
     error
   } = await supabase.auth.getUser()
 
-  console.log("User from middleware:", user);
-  console.log("Error from middleware:", error);
+  // console.log("User from middleware:", user);
+  // console.log("Error from middleware:", error);
 
   if (
     !user &&

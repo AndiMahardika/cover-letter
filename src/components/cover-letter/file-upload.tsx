@@ -90,7 +90,6 @@ export function FileUpload({ uploadedFile, onFileUpload }: FileUploadProps) {
     localStorage.setItem("pdfText", data.doc)
     if(data.doc){
       nextStep()
-      console.log(currentStep)
     }
   };
 
