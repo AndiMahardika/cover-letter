@@ -1,8 +1,18 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Separator } from "@/components/ui/separator"
-import { Calendar, Mail, MapPin, Phone, Edit, Camera } from "lucide-react"
+"use client";
+
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
+import { Calendar, Mail, MapPin, Phone, Edit, Camera } from "lucide-react";
+import { useState } from "react";
+import EditProfileDialog from "./edit";
 
 export default function ProfilePage() {
   // In a real app, this data would come from your database/API
@@ -12,19 +22,28 @@ export default function ProfilePage() {
     joinedDate: "January 15, 2023",
     location: "Indonesia",
     phone: "+1 (555) 123-4567",
-  }
+  };
+
+  const [isDialogOpen, setDialogOpen] = useState(false);
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-navy-900">User Profile</h1>
-          {/* <p className="text-gray-600 mt-2">Manage your personal information and account settings</p> */}
+          <p className="text-gray-600 mt-2">
+            Manage your personal information and account settings
+          </p>
         </div>
-        {/* <Button className="bg-navy-900 hover:bg-navy-800">
+        <Button
+          onClick={() => setDialogOpen(true)}
+          className="bg-navy-900 hover:bg-navy-800"
+        >
           <Edit className="mr-2 h-4 w-4" />
           Edit Profile
-        </Button> */}
+        </Button>
+        {/* Edit Profile Dialog */}
+        <EditProfileDialog open={isDialogOpen} onOpenChange={setDialogOpen} />
       </div>
 
       <div className="grid gap-6 md:grid-cols-3">
@@ -33,8 +52,13 @@ export default function ProfilePage() {
           <CardHeader className="text-center">
             <div className="relative mx-auto">
               <Avatar className="h-24 w-24 mx-auto">
-                <AvatarImage src="/placeholder.svg?height=96&width=96" alt="Profile" />
-                <AvatarFallback className="bg-navy-900 text-white text-2xl">JD</AvatarFallback>
+                <AvatarImage
+                  src="/placeholder.svg?height=96&width=96"
+                  alt="Profile"
+                />
+                <AvatarFallback className="bg-navy-900 text-white text-2xl">
+                  JD
+                </AvatarFallback>
               </Avatar>
               <Button
                 size="icon"
@@ -44,8 +68,12 @@ export default function ProfilePage() {
                 <Camera className="h-4 w-4" />
               </Button>
             </div>
-            <CardTitle className="text-xl text-navy-900 mt-4">{userProfile.name}</CardTitle>
-            <CardDescription className="text-gray-600">{userProfile.email}</CardDescription>
+            <CardTitle className="text-xl text-navy-900 mt-4">
+              {userProfile.name}
+            </CardTitle>
+            <CardDescription className="text-gray-600">
+              {userProfile.email}
+            </CardDescription>
           </CardHeader>
           <CardContent className="text-center">
             <div className="space-y-2 text-sm text-gray-600">
@@ -65,20 +93,26 @@ export default function ProfilePage() {
         <Card className="md:col-span-2">
           <CardHeader>
             <CardTitle className="text-navy-900">Profile Information</CardTitle>
-            <CardDescription>Your personal details and contact information</CardDescription>
+            <CardDescription>
+              Your personal details and contact information
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="grid gap-6 md:grid-cols-2">
               <div className="space-y-4">
                 <div>
-                  <label className="text-sm font-medium text-gray-700">Full Name</label>
+                  <label className="text-sm font-medium text-gray-700">
+                    Full Name
+                  </label>
                   <div className="mt-1 p-3 bg-gray-50 rounded-lg border">
                     <p className="text-sm text-navy-900">{userProfile.name}</p>
                   </div>
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium text-gray-700">Email Address</label>
+                  <label className="text-sm font-medium text-gray-700">
+                    Email Address
+                  </label>
                   <div className="mt-1 p-3 bg-gray-50 rounded-lg border flex items-center gap-2">
                     <Mail className="h-4 w-4 text-gray-500" />
                     <p className="text-sm text-navy-900">{userProfile.email}</p>
@@ -88,14 +122,20 @@ export default function ProfilePage() {
 
               <div className="space-y-4">
                 <div>
-                  <label className="text-sm font-medium text-gray-700">Location</label>
+                  <label className="text-sm font-medium text-gray-700">
+                    Location
+                  </label>
                   <div className="mt-1 p-3 bg-gray-50 rounded-lg border flex items-center gap-2">
                     <MapPin className="h-4 w-4 text-gray-500" />
-                    <p className="text-sm text-navy-900">{userProfile.location}</p>
+                    <p className="text-sm text-navy-900">
+                      {userProfile.location}
+                    </p>
                   </div>
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-700">Phone Number</label>
+                  <label className="text-sm font-medium text-gray-700">
+                    Phone Number
+                  </label>
                   <div className="mt-1 p-3 bg-gray-50 rounded-lg border flex items-center gap-2">
                     <Phone className="h-4 w-4 text-gray-500" />
                     <p className="text-sm text-navy-900">{userProfile.phone}</p>
@@ -107,17 +147,25 @@ export default function ProfilePage() {
             <Separator />
 
             <div>
-              <h3 className="text-lg font-semibold text-navy-900 mb-4">Account Details</h3>
+              <h3 className="text-lg font-semibold text-navy-900 mb-4">
+                Account Details
+              </h3>
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
                   <div className="flex items-center gap-2 mb-2">
                     <Calendar className="h-5 w-5 text-blue-600" />
-                    <span className="font-medium text-blue-900">Member Since</span>
+                    <span className="font-medium text-blue-900">
+                      Member Since
+                    </span>
                   </div>
                   <p className="text-blue-700">{userProfile.joinedDate}</p>
                   <p className="text-xs text-blue-600 mt-1">
-                    {Math.floor((new Date().getTime() - new Date("2023-01-15").getTime()) / (1000 * 60 * 60 * 24))} days
-                    ago
+                    {Math.floor(
+                      (new Date().getTime() -
+                        new Date("2023-01-15").getTime()) /
+                      (1000 * 60 * 60 * 24)
+                    )}{" "}
+                    days ago
                   </p>
                 </div>
               </div>
@@ -150,5 +198,5 @@ export default function ProfilePage() {
         </CardContent>
       </Card> */}
     </div>
-  )
+  );
 }
