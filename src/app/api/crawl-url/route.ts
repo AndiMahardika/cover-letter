@@ -88,7 +88,7 @@ export async function POST(request: Request) {
       )
     }
   } catch (error) {
-    console.error("Invalid URL format:", error)
+    // console.error("Invalid URL format:", error)
     return new Response(JSON.stringify({ error: "Invalid URL format." }), { status: 400 })
   }
 
@@ -102,8 +102,12 @@ export async function POST(request: Request) {
   })
 
   if (!scrapeResult.success) {
+    // return new Response(
+    //   JSON.stringify({ error: `Failed to scrape: ${scrapeResult.error}` }),
+    //   { status: 500 }
+    // )
     return new Response(
-      JSON.stringify({ error: `Failed to scrape: ${scrapeResult.error}` }),
+      JSON.stringify({ error: `Failed to analyze the URL. Please try again later.` }),
       { status: 500 }
     )
   }

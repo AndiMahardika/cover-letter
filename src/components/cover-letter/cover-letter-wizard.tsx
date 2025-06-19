@@ -9,6 +9,7 @@ import { Stepper } from "./stepper"
 import { FileUpload } from "./file-upload"
 import { useStepsStore } from "@/store/stepStore"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
+import { on } from "events"
 
 interface CoverLetterWizardProps {
   uploadedFile: File | null
@@ -51,7 +52,6 @@ export function CoverLetterWizard({
   }
 
   const handleUrl = async () => {
-    // console.log("Handling URL:", jobUrl, jobSource)
     if (!jobUrl || !jobSource) return
 
     setIsLoadingUrl(true)
@@ -71,37 +71,47 @@ export function CoverLetterWizard({
       if (!res.ok) {
         setUrlError(`${data.error || "Unknown error occurred."}`);
       } else {
-        console.log("Crawl URL result:", data);
+        // console.log("Crawl URL result:", data);
         localStorage.setItem("jobData", JSON.stringify(data));
+        nextStep()
       }
     } catch (error) {
-      setUrlError(`Network Error: ${error}`);
+      // setUrlError(`Network Error: ${error}`);
+      setUrlError("Something went wrong. Try again later.")
     } finally {
       setIsLoadingUrl(false)
     }
-    nextStep()
   }
 
   const handleGenerate = async () => {
     const pdfText = localStorage.getItem("pdfText")
     const jobData = localStorage.getItem("jobData")
-    console.log("PDF", pdfText)
-    console.log("Job", jobData)
-    // setIsGenerating(true)
-    // try {
-    //   const formData = new FormData()
-    //   formData.append("cv", uploadedFile)
-    //   formData.append("jobUrl", jobUrl)
-
-    //   const result = await generateCoverLetter(formData)
-    //   if (result.success) {
-    //     onGenerate(result.coverLetter)
-    //   }
-    // } catch (error) {
-    //   console.error("Error generating cover letter:", error)
-    // } finally {
-    //   setIsGenerating(false)
-    // }
+    
+    setIsGenerating(true)
+    try {
+      const res = await fetch("/api/cover-letter", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          cvText: pdfText,
+          jobData: jobData ? JSON.parse(jobData) : null,
+          language,
+        }),
+      })
+      if (!res.ok) {
+        const errorData = await res.json()
+        throw new Error(errorData.error || "Failed to generate cover letter")
+      }
+      const data = await res.json()
+      console.log("Generated cover letter:", data)
+      onGenerate(data)
+    } catch (error) {
+      console.error("Error generating cover letter:", error)
+    } finally {
+      setIsGenerating(false)
+    }
   }
 
   return (

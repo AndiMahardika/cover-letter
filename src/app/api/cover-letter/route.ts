@@ -5,22 +5,20 @@ const apiKey = process.env.GEMINI_API_KEY;
 const ai = new GoogleGenAI({apiKey});
 
 export async function POST(request: Request) {
-  const { cv, job } = await request.json();
+  const { cvText, jobData, language } = await request.json();
 
   const response = await ai.models.generateContent({
-    model: "gemini-2.5-flash-preview-05-20",
+    model: "gemini-2.5-flash-preview-04-17",
     contents: [
       {
         role: "user",
         parts: [{text: `
-            Buatkan saya sebuah cover letter dalam bahasa Indonesia yang sopan dan profesional berdasarkan informasi CV dan lowongan kerja berikut ini. 
+            Buatkan saya sebuah cover letter dalam bahasa ${language} yang sopan dan profesional berdasarkan informasi CV dan lowongan kerja berikut ini. 
 
             ⚠️ Penting:
             - Jangan awali atau akhiri dengan kalimat pengantar seperti "Berikut adalah..." atau "Demikian cover letter ini..."
             - Langsung tampilkan hasil akhir cover letter tanpa penjelasan tambahan.
             - Gunakan struktur dan format seperti ini:
-
-            ---
 
             **[Nama Lengkap]**  
             [Alamat lengkap (jika ada)]  
@@ -48,16 +46,14 @@ export async function POST(request: Request) {
             Hormat saya,  
             **[Nama Lengkap]**
 
-            ---
-
             Gunakan data berikut untuk menyusun cover letter:
 
             - **Informasi CV**:
             Informasi CV:
-            ${cv}
+            ${cvText}
 
             Informasi Lowongan Kerja:
-            ${JSON.stringify(job, null, 2)}
+            ${JSON.stringify(jobData, null, 2)}
 
             Tolong hasilkan cover letter yang sesuai dengan struktur di atas, bahasa formal namun tidak kaku, dan langsung mengisi placeholder seperti nama perusahaan dan posisi yang dilamar. Jangan munculkan placeholder seperti [Nama Perusahaan] atau [Posisi yang dilamar] dalam hasil akhir.`
           }]
@@ -65,7 +61,6 @@ export async function POST(request: Request) {
     ],
   });
 
-  // console.log(response.text);
   const result = response.text;
 
   return new Response(JSON.stringify(result), {
