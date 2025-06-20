@@ -3,8 +3,8 @@ import { FileText, Users } from "lucide-react";
 
 export default function ToolkitSection() {
   return (
-    <section className="py-20 px-6">
-      <div className="max-w-7xl mx-auto">
+    <section className="py-20">
+      <div className="max-w-7xl mx-auto px-8">
         <div className="grid lg:grid-cols-2 gap-16 items-start ">
           <div className="col-span-1">
             <h2 className="lg:text-7xl font-medium mb-6 leading-tight">
@@ -30,7 +30,7 @@ export default function ToolkitSection() {
           </div>
         </div>
 
-        <div className="space-y-12 mt-16">
+        <div className="space-y-8 mt-16">
           <hr className="border-white" />
           {/* First Row */}
           <div className="flex items-center justify-between px-8">

@@ -1,23 +1,16 @@
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import {
   Star,
-  Play,
   ArrowRight,
-  FileText,
-  CheckCircle,
   Users,
-  Zap,
-  ChevronDown,
-  Menu,
 } from "lucide-react";
 import Link from "next/link";
 import Header from "@/components/landing-page/header";
 import HeroSection from "@/components/landing-page/heroes-section";
 import ToolkitSection from "@/components/landing-page/toolkit-section";
 import FiturSection from "@/components/landing-page/fitur-section";
+import HowSection from "@/components/landing-page/how-section";
 
 export default function Home() {
   return (
@@ -26,69 +19,8 @@ export default function Home() {
       <HeroSection />
       <ToolkitSection />
       <FiturSection />
+      <HowSection />
 
-
-      {/* How it Works Section */}
-      <section className="py-20 px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="flex items-center mb-4">
-                <Zap className="w-5 h-5 text-purple-400 mr-2" />
-                <span className="text-purple-400 text-sm">How it works</span>
-              </div>
-              <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-                What it does & how it works
-              </h2>
-              <p className="text-gray-400 mb-8">
-                Our online cover letter tool provides all you need to create a
-                standout, professional and impressive cover letter that gets you
-                the interview. From customizable templates to expert guidance,
-                we make creating your cover letter simple and effective.
-              </p>
-              <div className="flex space-x-4">
-                <Button className="bg-purple-600 hover:bg-purple-700 text-white">
-                  Get Started
-                </Button>
-                <Button
-                  variant="outline"
-                  className="border-gray-600 text-white hover:bg-gray-800"
-                >
-                  Complete tour
-                </Button>
-                <Button
-                  variant="ghost"
-                  className="text-white hover:bg-gray-800"
-                >
-                  Resume
-                </Button>
-              </div>
-            </div>
-            <div className="bg-gradient-to-br from-purple-600 to-purple-800 rounded-2xl p-8 relative">
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 mb-4">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-sm">01</span>
-                  <Button
-                    size="sm"
-                    className="bg-white/20 hover:bg-white/30 text-white"
-                  >
-                    First Step
-                  </Button>
-                </div>
-                <h3 className="font-bold mb-2">
-                  Begin with choosing a template
-                </h3>
-              </div>
-              <div className="flex space-x-4">
-                <div className="w-24 h-32 bg-white rounded shadow-lg flex items-center justify-center">
-                  <CheckCircle className="w-8 h-8 text-green-500" />
-                </div>
-                <div className="w-24 h-32 bg-white/80 rounded shadow-lg"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Testimonials Section */}
       <section className="py-20 px-6 bg-gray-900/50">
