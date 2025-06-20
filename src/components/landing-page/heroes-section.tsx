@@ -38,11 +38,8 @@ export default function HeroSection() {
             </p>
             <div className="flex items-center space-x-4 mb-8">
               <Button className="bg-black text-white hover:bg-gray-800 px-12 py-6 rounded-full">
-                Create new resume
+                Create new Cover Letter
               </Button>
-              <div className="w-12 h-12 bg-black rounded-full flex items-center justify-center">
-                <div className="w-6 h-6 bg-white rounded"></div>
-              </div>
             </div>
           </div>
 
