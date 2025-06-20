@@ -44,15 +44,6 @@ export default function HeroSection() {
                 <div className="w-6 h-6 bg-white rounded"></div>
               </div>
             </div>
-            {/* <div className="absolute bottom-8 right-8">
-              <div className="flex items-center space-x-2 text-sm opacity-80">
-                <span>Powered by</span>
-                <div className="flex items-center space-x-1">
-                  <div className="w-5 h-5 bg-black rounded"></div>
-                  <span className="font-semibold">OpenAI</span>
-                </div>
-              </div>
-            </div> */}
           </div>
 
           <div className="col-span-1 space-y-6">
@@ -65,7 +56,7 @@ export default function HeroSection() {
                 />
               </div>
               <h2 className="text-3xl font-medium mt-4 text-[#12021c] leading-tight">
-                Experience the Power of AI for Your Cover Letters ✨
+                Experience the Power of AI for Your Cover Letters
               </h2>
             </div>
           </div>

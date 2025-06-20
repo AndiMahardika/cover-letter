@@ -4,7 +4,7 @@ import Link from "next/link"
 
 export default function Header() {
     return (
-      <header className="container mx-auto">
+      <header className="container mx-auto text-white">
         <div className="flex items-center justify-between px-6 py-4">
           <div className="flex items-center space-x-8">
             <div className="flex items-center space-x-2">
@@ -12,10 +12,13 @@ export default function Header() {
             </div>
             <nav className="hidden md:flex items-center space-x-6 text-sm">
               <div className="flex items-center space-x-1 hover:text-gray-300 cursor-pointer">
-                <span>Resume</span>
+                <span>Features</span>
               </div>
               <div className="flex items-center space-x-1 hover:text-gray-300 cursor-pointer">
-                <span>Cover Letter</span>
+                <span>Testimonials</span>
+              </div>
+              <div className="flex items-center space-x-1 hover:text-gray-300 cursor-pointer">
+                <span>FAQ</span>
               </div>
             </nav>
           </div>

@@ -3,7 +3,7 @@ import { FileText, Users } from "lucide-react";
 
 export default function ToolkitSection() {
   return (
-    <section className="py-20">
+    <section className="py-20 text-white">
       <div className="max-w-7xl mx-auto px-8">
         <div className="grid lg:grid-cols-2 gap-16 items-start ">
           <div className="col-span-1">

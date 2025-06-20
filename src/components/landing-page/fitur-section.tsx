@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 
 export default function FiturSection() {
   return (
-    <section className="py-20 px-6 ">
+    <section className="py-20 px-6 text-white ">
       <div className="max-w-7xl mx-auto bg-gray-700/50 px-12 py-12 rounded-4xl">
         <div className="flex items-center mb-6">
           <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center mr-3">
@@ -44,40 +44,40 @@ export default function FiturSection() {
                 <img
                   src="https://res.cloudinary.com/dehyfhrwi/image/upload/v1750418919/Screenshot_2025-06-20_182441_kyh59u.png"
                   alt=""
+                  className="w-full h-full object-cover"
                 />
               </div>
               <h3 className="text-3xl font-medium">
-                Online editing and customizing
+                Upload your CV
               </h3>
             </CardContent>
           </Card>
 
-          {/* Upload CV Section */}
           <Card className="bg-white text-black rounded-4xl overflow-hidden">
             <CardContent className="px-6">
               <div className="mb-8 h-72 overflow-hidden shadow-md rounded-lg">
                 <img
-                  src="https://res.cloudinary.com/dehyfhrwi/image/upload/v1750418919/Screenshot_2025-06-20_182441_kyh59u.png"
+                  src="https://res.cloudinary.com/dehyfhrwi/image/upload/v1750430914/Screenshot_2025-06-20_182511_kumbnq.png"
                   alt=""
                 />
               </div>
               <h3 className="text-3xl font-medium">
-                Online editing and customizing
+                Paste Jobs Url
               </h3>
             </CardContent>
           </Card>
 
-          {/* Upload CV Section */}
           <Card className="bg-white text-black rounded-4xl overflow-hidden">
             <CardContent className="px-6">
               <div className="mb-8 h-72 overflow-hidden shadow-md rounded-lg">
                 <img
-                  src="https://res.cloudinary.com/dehyfhrwi/image/upload/v1750418919/Screenshot_2025-06-20_182441_kyh59u.png"
+                  src="https://res.cloudinary.com/dehyfhrwi/image/upload/v1750425109/freepik_assistant_1750425089754_cgwmz9.png"
                   alt=""
+                  className="w-full h-full object-cover"
                 />
               </div>
               <h3 className="text-3xl font-medium">
-                Online editing and customizing
+                Preview and Download
               </h3>
             </CardContent>
           </Card>

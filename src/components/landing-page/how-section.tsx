@@ -1,15 +1,15 @@
 import { Button } from "@/components/ui/button";
-import { Zap } from "lucide-react";
+import { MessageCircleQuestion } from "lucide-react";
 
 export default function HowSection() {
     return (
-      <section className="py-20 px-6">
+      <section className="py-20 px-6 text-white">
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="col-span-1 flex h-full">
               <div className="place-self-end">
                 <div className="flex items-center mb-4">
-                  <Zap className="w-5 h-5 text-purple-400 mr-2" />
+                  <MessageCircleQuestion className="w-5 h-5 text-purple-400 mr-2" />
                   <span className="text-purple-400 text-sm">How it works</span>
                 </div>
                 <h2 className="text-5xl lg:text-7xl font-medium leading-tight mb-6">
@@ -23,7 +23,7 @@ export default function HowSection() {
                   effective.
                 </p>
                 <div className="flex space-x-4">
-                  <Button className="bg-purple-600 hover:bg-purple-700 text-white">
+                  <Button className="bg-purple-600 hover:bg-purple-700 text-white rounded-full">
                     Create new cover letter
                   </Button>
                 </div>
@@ -38,7 +38,7 @@ export default function HowSection() {
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <div className="bg-black p-6 rounded-lg">
+                <div className="bg-[#101010] p-6 rounded-lg">
                   <div className="flex items-center gap-2">
                     <div className="w-8 h-8 text-white font-medium rounded-full flex items-center justify-center border border-white">
                       <p>01</p>
