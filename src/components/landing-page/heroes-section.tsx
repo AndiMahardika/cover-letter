@@ -8,7 +8,7 @@ export default function HeroSection() {
     <section className="px-6 py-12">
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-3 gap-8">
-          <div className="col-span-2 bg-[#fe7a42] rounded-4xl p-8 lg:p-14 text-black relative">
+          <div className="col-span-2 bg-[#fe7a42] rounded-4xl lg:px-14 lg:pt-14  text-black relative">
             <h1 className="text-4xl lg:text-8xl font-medium mb-6 leading-tight">
               Stand{" "}
               <span className="inline-flex -space-x-2">
@@ -24,28 +24,27 @@ export default function HeroSection() {
                   <AvatarImage src="https://i.pinimg.com/736x/ae/c2/0c/aec20cdb3145c59c3879e9eac21de353.jpg" />
                   <AvatarFallback>CV</AvatarFallback>
                 </Avatar>
-              </span>
-              {" "}Out{" "} 
-              <br />
-              <span className="inline-flex items-center bg-black text-white px-4 py-2 rounded-full text-3xl lg:text-5xl mr-4">
+              </span>{" "}
+              Out <br />
+              <span className="inline-flex items-center bg-black text-[#c199fd] px-12 py-2 rounded-full text-3xl lg:text-5xl mr-4">
                 &
               </span>
               Get Your Job
             </h1>
-            <p className="text-lg mb-8 opacity-80 max-w-md">
+            <p className="text-lg mb-8 opacity-80 text-balance">
               Thousands of job seekers have benefited from our professional
               resume builder by landing more interviews and being hired in a
               shorter amount of time.
             </p>
             <div className="flex items-center space-x-4 mb-8">
-              <Button className="bg-black text-white hover:bg-gray-800 px-8 py-3 rounded-full">
+              <Button className="bg-black text-white hover:bg-gray-800 px-12 py-6 rounded-full">
                 Create new resume
               </Button>
               <div className="w-12 h-12 bg-black rounded-full flex items-center justify-center">
                 <div className="w-6 h-6 bg-white rounded"></div>
               </div>
             </div>
-            <div className="absolute bottom-8 right-8">
+            {/* <div className="absolute bottom-8 right-8">
               <div className="flex items-center space-x-2 text-sm opacity-80">
                 <span>Powered by</span>
                 <div className="flex items-center space-x-1">
@@ -53,67 +52,61 @@ export default function HeroSection() {
                   <span className="font-semibold">OpenAI</span>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
 
           <div className="col-span-1 space-y-6">
-            <div className="bg-gradient-to-br from-purple-400 to-purple-600 rounded-3xl p-8 text-white relative">
-              <div className="grid grid-cols-2 gap-6 items-center">
-                <div>
-                  <h2 className="text-2xl font-bold mb-4">
-                    Experience the Power of AI for Your Cover Letters ✨
-                  </h2>
-                </div>
-                <div className="relative">
-                  <div className="w-32 h-40 bg-white rounded-2xl overflow-hidden">
-                    <div className="w-full h-full bg-gradient-to-b from-gray-100 to-gray-200 flex items-center justify-center">
-                      <div className="text-6xl">👩‍💼</div>
-                    </div>
-                  </div>
-                  <Button className="absolute -bottom-3 -right-3 bg-black text-white hover:bg-gray-800 rounded-full p-3">
-                    <Play className="w-5 h-5" />
-                  </Button>
-                </div>
+            <div className="bg-gradient-to-br from-purple-400 to-purple-600 rounded-4xl p-8 text-white relative">
+              <div className="h-72 overflow-hidden bg-white rounded-3xl">
+                <img
+                  src="https://i.pinimg.com/736x/fe/cc/53/fecc538bb8f8ca375d3c44da58caf7c1.jpg"
+                  alt=""
+                  className="h-full w-full object-cover"
+                />
               </div>
-            </div>
-
-            {/* White stats card */}
-            <div className="bg-white rounded-3xl p-6 text-black">
-              <div className="flex items-center justify-center space-x-4 mb-4">
-                <Badge className="bg-gray-100 text-black hover:bg-gray-200 px-4 py-2 rounded-full">
-                  +500K Users
-                </Badge>
-                <Badge className="bg-black text-white hover:bg-gray-800 px-4 py-2 rounded-full">
-                  +400K Get Hired
-                </Badge>
-              </div>
-              <div className="flex items-center justify-center space-x-2">
-                <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
-                  <Star className="w-4 h-4 text-white fill-white" />
-                </div>
-                <span className="font-medium">
-                  Reviewed and Trusted by many people
-                </span>
-              </div>
+              <h2 className="text-3xl font-medium mt-4 text-[#12021c] leading-tight">
+                Experience the Power of AI for Your Cover Letters ✨
+              </h2>
             </div>
           </div>
         </div>
 
-        {/* Bottom section with stars and description */}
-        <div className="mt-12 max-w-2xl">
-          <div className="flex items-center space-x-4 mb-6">
-            <div className="flex items-center space-x-1 bg-gray-800 px-4 py-2 rounded-full">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-4 h-4 fill-white text-white" />
-              ))}
+        <div className="grid lg:grid-cols-3 gap-8 mt-4">
+          {/* Bottom section with stars and description */}
+          <div className="col-span-2 mt-8 ps-12">
+            <div className="flex items-center space-x-4 mb-6">
+              <div className="flex items-center space-x-3 px-4 py-2 rounded-full border border-white">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-6 h-6 fill-white text-white" />
+                ))}
+              </div>
+            </div>
+            <p className="text-gray-400 text-lg leading-relaxed max-w-xl">
+              With its sophisticated algorithms and natural language processing
+              capabilities, this tool streamlines the process of creating
+              personalized and compelling cover letters tailored to specific job
+              positions.
+            </p>
+          </div>
+          {/* White stats card */}
+          <div className="col-span-1 bg-white rounded-3xl p-8 ">
+            <div className="flex items-center space-x-4 mb-4">
+              <Badge className="text-black px-4 py-2 rounded-full border border-black bg-white">
+                +500K Users
+              </Badge>
+              <Badge className="text-white px-4 py-2 rounded-full border border-black bg-black">
+                +400K Get Hired
+              </Badge>
+            </div>
+            <div className="flex items-center justify-center space-x-3 mt-8">
+              <div className="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center">
+                <Star className="w-6 h-6 text-white fill-white" />
+              </div>
+              <span className="font-semibold text-black">
+                Reviewed and Trusted by many people
+              </span>
             </div>
           </div>
-          <p className="text-gray-400 text-lg leading-relaxed">
-            With its sophisticated algorithms and natural language processing
-            capabilities, this tool streamlines the process of creating
-            personalized and compelling cover letters tailored to specific job
-            positions.
-          </p>
         </div>
       </div>
     </section>
