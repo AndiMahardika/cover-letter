@@ -3,8 +3,8 @@ import { Card, CardContent } from "@/components/ui/card";
 
 export default function FiturSection() {
   return (
-    <section className="py-20 px-6 text-white ">
-      <div className="max-w-7xl mx-auto bg-gray-700/50 px-12 py-12 rounded-4xl">
+    <section className="md:py-20 py-8 px-6 text-white ">
+      <div className="max-w-7xl mx-auto bg-gray-700/50 px-6 md:px-12 md:py-12 py-8 rounded-2xl md:rounded-4xl">
         <div className="flex items-center mb-6">
           <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center mr-3">
             <div className="w-4 h-4 bg-white rounded"></div>
@@ -14,11 +14,11 @@ export default function FiturSection() {
 
         <div className="mb-6">
           <div>
-            <h2 className="text-5xl lg:text-7xl font-medium mb-8 leading-tight">
+            <h2 className="text-4xl lg:text-7xl font-medium mb-8 leading-tight">
               Start creating your <br />
               perfect cover letter today
             </h2>
-            <div className="flex items-center justify-between">
+            <div className="flex md:flex-row flex-col items-center justify-between">
               <div>
                 <p className="text-gray-400 text-lg mb-8 leading-relaxed max-w-xl">
                   Our online cover letter instruments allow you to generate a
@@ -28,7 +28,7 @@ export default function FiturSection() {
                 </p>
               </div>
               <div>
-                <Button className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-6 rounded-full text-lg mt-12">
+                <Button className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-6 rounded-full text-lg md:mt-12">
                   Create new cover letter
                 </Button>
               </div>
@@ -38,7 +38,7 @@ export default function FiturSection() {
 
         <div className="grid md:grid-cols-3 gap-6">
           {/* Upload CV Section */}
-          <Card className="bg-white text-black rounded-4xl overflow-hidden">
+          <Card className="bg-white text-black rounded-2xl md:rounded-4xl overflow-hidden">
             <CardContent className="px-6">
               <div className="mb-8 h-72 overflow-hidden shadow-md rounded-lg">
                 <img
@@ -47,13 +47,13 @@ export default function FiturSection() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h3 className="text-3xl font-medium">
+              <h3 className="text-2xl md:text-3xl font-medium">
                 Upload your CV
               </h3>
             </CardContent>
           </Card>
 
-          <Card className="bg-white text-black rounded-4xl overflow-hidden">
+          <Card className="bg-white text-black rounded-2xl md:rounded-4xl overflow-hidden">
             <CardContent className="px-6">
               <div className="mb-8 h-72 overflow-hidden shadow-md rounded-lg">
                 <img
@@ -61,13 +61,13 @@ export default function FiturSection() {
                   alt=""
                 />
               </div>
-              <h3 className="text-3xl font-medium">
+              <h3 className="text-2xl md:text-3xl font-medium">
                 Paste Jobs Url
               </h3>
             </CardContent>
           </Card>
 
-          <Card className="bg-white text-black rounded-4xl overflow-hidden">
+          <Card className="bg-white text-black rounded-2xl md:rounded-4xl overflow-hidden">
             <CardContent className="px-6">
               <div className="mb-8 h-72 overflow-hidden shadow-md rounded-lg">
                 <img
@@ -76,7 +76,7 @@ export default function FiturSection() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h3 className="text-3xl font-medium">
+              <h3 className="text-2xl md:text-3xl font-medium">
                 Preview and Download
               </h3>
             </CardContent>

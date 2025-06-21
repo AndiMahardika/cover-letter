@@ -3,7 +3,7 @@ import { MessageCircleQuestion } from "lucide-react";
 
 export default function HowSection() {
     return (
-      <section className="py-20 px-6 text-white">
+      <section className="md:py-20 py-8 px-6 text-white">
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="col-span-1 flex h-full">
@@ -12,7 +12,7 @@ export default function HowSection() {
                   <MessageCircleQuestion className="w-5 h-5 text-purple-400 mr-2" />
                   <span className="text-purple-400 text-sm">How it works</span>
                 </div>
-                <h2 className="text-5xl lg:text-7xl font-medium leading-tight mb-6">
+                <h2 className="text-4xl lg:text-7xl text-balance font-medium leading-tight mb-6">
                   What it does & how it works
                 </h2>
                 <p className="text-gray-400 mb-8">

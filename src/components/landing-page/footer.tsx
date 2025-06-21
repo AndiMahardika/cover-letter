@@ -3,14 +3,14 @@ import CTA from "./cta";
 
 export default function Footer() {
   return (
-    <section className="py-20 px-6">
+    <section className="py-20  px-4 md:px-6">
       <div className="max-w-7xl mx-auto">
-        <div className="bg-[#fe7a42] rounded-2xl p-12 text-black relative overflow-hidden">
+        <div className="bg-[#fe7a42] rounded-2xl md:p-12 p-8 text-black relative overflow-hidden">
           <CTA />
           {/* Footer */}
-          <footer className="mt-12">
+          <footer className="md:mt-12 mt-10">
             <div className="flex flex-wrap justify-between items-center text-sm text-black">
-              <div className="flex space-x-16 mb-4 md:mb-0 font-medium">
+              <div className="flex gap-4 md:gap-8 mb-4 md:mb-0 font-medium">
                 <Link href="#" className="hover:text-black">
                   Privacy Policy
                 </Link>
