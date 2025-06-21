@@ -1,15 +1,22 @@
 "use client"
 
 import { useState } from "react"
+import { useRef } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { CoverLetterWizard } from "@/components/cover-letter/cover-letter-wizard"
 import { CoverLetterPreview } from "@/components/cover-letter/cover-letter-preview"
+import { SimpleEditor } from "@/components/tiptap-templates/simple/simple-editor"
+import { Button } from "@/components/ui/button"
+import { useReactToPrint } from "react-to-print";
 
 export default function CoverLetterPage() {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null)
   const [jobUrl, setJobUrl] = useState("")
   const [generatedCoverLetter, setGeneratedCoverLetter] = useState("")
   const [isGenerating, setIsGenerating] = useState(false)
+
+  const editorRef = useRef<HTMLDivElement>(null)
+  const reactToPrintFn = useReactToPrint({ contentRef: editorRef });
 
   return (
     <div className="space-y-6">
@@ -44,11 +51,21 @@ export default function CoverLetterPage() {
         <div className="space-y-6">
           <Card className="h-fit">
             <CardHeader>
-              <CardTitle className="text-navy-900">Cover Letter Preview</CardTitle>
-              <CardDescription>Your generated cover letter will appear here</CardDescription>
+            <div className="flex items-center justify-between space-x-4">
+              <div className="">
+                <CardTitle className="text-navy-900">Cover Letter Preview</CardTitle>
+                <CardDescription>Your generated cover letter will appear here</CardDescription>
+              </div>
+              <Button onClick={reactToPrintFn}>Download</Button>
+            </div>
             </CardHeader>
             <CardContent>
+            { generatedCoverLetter ? (
+              <SimpleEditor key={generatedCoverLetter} text={generatedCoverLetter} editorRef={editorRef} />
+            ) : (
               <CoverLetterPreview coverLetter={generatedCoverLetter} isGenerating={isGenerating} />
+              )
+            }
             </CardContent>
           </Card>
         </div>
