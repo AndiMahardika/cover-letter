@@ -74,12 +74,12 @@ export async function loginUser(formData: FormData) {
       return { success: false, error: error.message || "Login failed" };
     }
 
-    console.log(data.session)
+    // console.log(data.session)
     
-    await supabase.auth.setSession({
-      access_token: data.session.access_token,
-      refresh_token: data.session.refresh_token,
-    });
+    // await supabase.auth.setSession({
+    //   access_token: data.session.access_token,
+    //   refresh_token: data.session.refresh_token,
+    // });
 
     return { success: true, data };
   } catch (err) {
