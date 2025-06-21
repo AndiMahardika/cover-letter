@@ -10,21 +10,86 @@ import {
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-import { Calendar, Mail, MapPin, Phone, Edit, Camera } from "lucide-react";
-import { useState } from "react";
+import { Calendar, Mail, MapPin, Phone, Edit, Camera, User } from "lucide-react";
+import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabaseClient";
 import EditProfileDialog from "./edit";
+import toast from "react-hot-toast";
+
+type UserProfile = {
+  name: string;
+  email: string;
+  joinedDate: string;
+  location: string;
+  phone: string;
+};
 
 export default function ProfilePage() {
-  // In a real app, this data would come from your database/API
-  const userProfile = {
-    name: "John Doe",
-    email: "john@example.com",
-    joinedDate: "January 15, 2023",
-    location: "Indonesia",
-    phone: "+1 (555) 123-4567",
-  };
-
   const [isDialogOpen, setDialogOpen] = useState(false);
+  const [userProfile, setUserProfile] = useState<UserProfile>({
+    name: "",
+    email: "",
+    joinedDate: "",
+    location: "",
+    phone: "",
+  })
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      const { data: { user }, error } = await supabase.auth.getUser();
+      console.log(user?.user_metadata?.name);
+
+      if (error || !user) {
+        toast.error("Failed to fetch user profile");
+        return;
+      }
+      const data = user.user_metadata || {};
+      const needsUpdate = !data.location || !data.phone;
+
+      const updatedMetadata = {
+        name: data.name || "John Doe",
+        email: data.email || user.email || "john@example.com",
+        joinedDate:
+          user.created_at &&
+          new Date(user.created_at).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          }),
+        location: data.location || "Indonesia",
+        phone: data.phone || "(+62) 812-3456-7890",
+      };
+
+      if (needsUpdate) {
+        const { error: updateError } = await supabase.auth.updateUser({
+          data: {
+            ...data,
+            ...updatedMetadata,
+          }
+        })
+
+        if (updateError) {
+          toast.error("Failed to update user profile");
+        }
+      }
+      setUserProfile({
+        name: updatedMetadata.name,
+        email: updatedMetadata.email,
+        joinedDate: updatedMetadata.joinedDate || "-",
+        location: updatedMetadata.location,
+        phone: updatedMetadata.phone,
+      });
+    }
+
+    fetchUserProfile();
+  }, []);
+
+  const handleProfileUpdate = (updatedFields: Partial<typeof userProfile>) => {
+    setUserProfile((prev) => ({
+      ...prev,
+      ...updatedFields,
+    }));
+  };
 
   return (
     <div className="space-y-6">
@@ -43,7 +108,10 @@ export default function ProfilePage() {
           Edit Profile
         </Button>
         {/* Edit Profile Dialog */}
-        <EditProfileDialog open={isDialogOpen} onOpenChange={setDialogOpen} />
+        <EditProfileDialog
+          open={isDialogOpen}
+          onOpenChange={setDialogOpen}
+          onProfileUpdate={handleProfileUpdate} />
       </div>
 
       <div className="grid gap-6 md:grid-cols-3">
@@ -57,7 +125,7 @@ export default function ProfilePage() {
                   alt="Profile"
                 />
                 <AvatarFallback className="bg-navy-900 text-white text-2xl">
-                  JD
+                  {userProfile.name.slice(0, 2).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
               <Button
@@ -104,7 +172,8 @@ export default function ProfilePage() {
                   <label className="text-sm font-medium text-gray-700">
                     Full Name
                   </label>
-                  <div className="mt-1 p-3 bg-gray-50 rounded-lg border">
+                  <div className="mt-1 p-3 bg-gray-50 rounded-lg border flex gap-2 items-center">
+                    <User className="h-4 w-4 text-gray-500" />
                     <p className="text-sm text-navy-900">{userProfile.name}</p>
                   </div>
                 </div>
