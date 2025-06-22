@@ -13,50 +13,66 @@ export async function POST(request: Request) {
       {
         role: "user",
         parts: [{
-          text: `
-          Buatkan saya sebuah cover letter dalam bahasa ${language} yang sopan dan profesional berdasarkan informasi CV dan lowongan kerja berikut ini.
+          text: 
+          ` Buatkan **output dalam format JSON** dengan struktur sebagai berikut:
+            {
+              "coverLetter": "", 
+              "compatibility": {
+                "percentage": "", 
+                "strong_match": "", 
+                "experience_level": "", 
+                "minor_gap": ""
+              }
+            }
 
-          ⚠️ Penting:
-          - Jangan awali atau akhiri dengan kalimat pengantar seperti "Berikut adalah..." atau "Demikian cover letter ini..."
-          - Langsung tampilkan hasil akhir cover letter tanpa penjelasan tambahan.
-          - Gunakan struktur dan format seperti ini:
+            ⚠️ Ketentuan:
+            - "coverLetter": Surat lamaran kerja dalam bahasa ${language}, formal tapi tidak kaku, berdasarkan informasi CV dan lowongan di bawah.
+            - "percentage": Angka kecocokan keseluruhan antara CV dan lowongan (dalam persentase, tanpa simbol %).
+            - "strong_match": Paragraf pendek yang menjelaskan dengan bahasa ${language} formal dan tidak terlalu kaku dan menggunakan kata "kamu" aspek-aspek yang paling cocok antara kamu dan posisi yang dilamar.
+            - "experience_level": Paragraf pendek dengan bahasa ${language} formal dan tidak terlalu kaku yang menjelaskan seberapa cocok pengalaman kamu dengan persyaratan lowongan.
+            - "minor_gap": Paragraf pendek dengan bahasa ${language} formal dan tidak terlalu kaku yang menyebutkan kekurangan kecil atau hal yang perlu kamu tingkatkan agar lebih sesuai dengan lowongan.
 
-          <p><strong>[Nama Lengkap]</strong><br>
-          📞 [Nomor Telepon]<br>
-          📧 [Email Aktif]</p>
+            📌 Format **cover letter** wajib mengikuti struktur ini:
 
-          <p>[lokasi , tanggal/bulan/tahun]</p>
+            <p><strong>[Nama Lengkap]</strong><br>
+            📞 [Nomor Telepon]<br>
+            📧 [Email Aktif]</p>
 
-          <p><strong>Kepada: HR Devisi [Nama Perusahaan]</strong></p>
+            <p>[lokasi , tanggal/bulan/tahun]</p>
 
-          <p>Dengan hormat, <br>
-          Paragraf 1: Perkenalan diri singkat, posisi yang dilamar, dan alasan tertarik mendaftar.</p>
+            <p><strong>Kepada: HR Devisi [Nama Perusahaan]</strong></p>
 
-          <p>Paragraf 2: Penjabaran skill dan pengalaman yang relevan dengan posisi yang dilamar. Jika belum memiliki pengalaman kerja, jelaskan pengalaman magang, proyek kuliah, atau hasil bootcamp yang bisa membantu memenuhi kebutuhan perusahaan.</p>
+            <p>Dengan hormat, <br>
+            Paragraf 1: Perkenalan singkat, posisi yang dilamar, dan alasan tertarik.</p>
 
-          <p>Paragraf 3: Penutup. Tegaskan bahwa skill dan pengalaman yang dimiliki sesuai dengan kualifikasi posisi, sampaikan harapan untuk bisa lanjut ke tahap wawancara, dan ucapkan terima kasih.</p>
+            <p>Paragraf 2: Penjabaran skill dan pengalaman relevan (magang, proyek, atau bootcamp).</p>
 
-          <p>Hormat saya,<br>
-          <strong>[Nama Lengkap]</strong></p>
+            <p>Paragraf 3: Penutup, harapan ke tahap wawancara, dan ucapan terima kasih.</p>
 
-          Gunakan data berikut untuk menyusun cover letter:
+            <p>Hormat saya,<br>
+            <strong>[Nama Lengkap]</strong></p>
 
-          - **Informasi CV**:
-          Informasi CV:
-          ${cvText}
+            📎 Gunakan data berikut:
 
-          Informasi Lowongan Kerja:
-          ${JSON.stringify(jobData, null, 2)}
+            - CV:
+            ${cvText}
 
-          Tolong hasilkan cover letter yang sesuai dengan struktur di atas, bahasa formal namun tidak kaku, dan langsung mengisi placeholder seperti nama perusahaan dan posisi yang dilamar. Jangan munculkan placeholder seperti [Nama Perusahaan] atau [Posisi yang dilamar] dalam hasil akhir.`
+            - Lowongan Kerja:
+            ${JSON.stringify(jobData, null, 2)}
+
+            ⚠️ Penting
+            - Jangan tampilkan placeholder seperti [Nama Perusahaan] atau [Posisi yang dilamar] dalam hasil akhir.  
+            - Format keluaran wajib valid JSON seperti struktur di atas.
+            - Jangan gunakan tag HTML seperti <strong>, <em>, atau lainnya dalam bagian compatibility (strong_match, experience_level, minor_gap).`
         }]
       }
     ],
   });
 
   const result = response.text;
+  let responseJson = result?.replace(/```json|```/g, "").trim();
 
-  return new Response(JSON.stringify(result), {
+  return new Response(responseJson, {
     headers: { "Content-Type": "application/json" },
   });
 }

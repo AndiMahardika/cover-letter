@@ -6,7 +6,7 @@ import { Download, Copy, Loader2 } from "lucide-react"
 import { useState } from "react"
 
 interface CoverLetterPreviewProps {
-  coverLetter: string
+  coverLetter?: string
   isGenerating: boolean
 }
 

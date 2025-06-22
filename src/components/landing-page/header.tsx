@@ -17,10 +17,14 @@ export default function Header() {
             </div>
             <nav className="hidden md:flex items-center space-x-6 text-sm">
               <div className="flex items-center space-x-1 hover:text-gray-300 cursor-pointer">
-                <span>Features</span>
+                <a href="#features">
+                  <span>Features</span>
+                </a>
               </div>
               <div className="flex items-center space-x-1 hover:text-gray-300 cursor-pointer">
-                <span>Testimonials</span>
+                <a href="#testimonials">
+                  <span>Testimonials</span>
+                </a>
               </div>
               <div className="flex items-center space-x-1 hover:text-gray-300 cursor-pointer">
                 <span>FAQ</span>
@@ -28,9 +32,11 @@ export default function Header() {
             </nav>
           </div>
           <div className="flex items-center space-x-4">
-            <Button className="bg-purple-600 hover:bg-purple-700 text-gray-100 px-4 sm:px-6 text-sm rounded-full font-semibold">
-              <Link href="/login">Get Started</Link>
-            </Button>
+            <Link href="/dashboard/cover-letter">
+              <Button className="bg-purple-600 hover:bg-purple-700 text-gray-100 px-4 sm:px-6 text-sm rounded-full font-semibold cursor-pointer">
+                Get Started
+              </Button>
+            </Link>
             <Button 
               variant="ghost" 
               className="md:hidden p-2"
@@ -50,10 +56,14 @@ export default function Header() {
           <div className="md:hidden absolute top-full left-0 right-0 bg-[#101010] border-t border-gray-800 py-4 px-6 z-50">
             <nav className="flex flex-col space-y-4">
               <div className="flex items-center space-x-1 hover:text-gray-300 cursor-pointer">
-                <span>Features</span>
+                <a href="#features">
+                  <span>Features</span>
+                </a>
               </div>
               <div className="flex items-center space-x-1 hover:text-gray-300 cursor-pointer">
-                <span>Testimonials</span>
+                <a href="#testimonials">
+                  <span>Testimonials</span>
+                </a>
               </div>
               <div className="flex items-center space-x-1 hover:text-gray-300 cursor-pointer">
                 <span>FAQ</span>
