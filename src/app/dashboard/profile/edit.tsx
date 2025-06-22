@@ -112,7 +112,12 @@ export default function EditProfileDialog({
 
     // Handle phone number change
     const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const input = e.target.value.replace(/\D/g, ""); // hanya angka
+        // Validate input to only numbers
+        if (/[a-zA-Z]/.test(e.target.value)) {
+            return;
+        }
+
+        const input = e.target.value.replace(/\D/g, "");
         const countryCodeDigits = countryCode.replace("+", "");
 
         // If the input starts with the country code, remove it
