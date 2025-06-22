@@ -38,9 +38,11 @@ export default function HeroSection() {
               shorter amount of time.
             </p>
             <div className="flex items-center space-x-4 mb-0 lg:mb-8">
-              <Button className="bg-black text-white hover:bg-gray-800 px-12 py-6 rounded-full">
-                <Link href="/dashboard/cover-letter">Create new Cover Letter</Link>
-              </Button>
+              <Link href="/dashboard/cover-letter">
+                <Button className="bg-black text-white hover:bg-gray-800 px-12 py-6 rounded-full cursor-pointer">
+                  Create new Cover Letter
+                </Button>
+              </Link>
             </div>
           </div>
 

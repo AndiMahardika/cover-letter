@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function FiturSection() {
   return (
-    <section className="md:py-20 py-8 px-6 text-white ">
+    <section className="md:py-20 py-8 px-6 text-white" id="features">
       <div className="max-w-7xl mx-auto bg-gray-700/50 px-6 md:px-12 md:py-12 py-8 rounded-2xl md:rounded-4xl">
         <div className="flex items-center mb-6">
           <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center mr-3">
@@ -29,11 +29,11 @@ export default function FiturSection() {
                 </p>
               </div>
               <div>
-                <Button className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-6 rounded-full text-lg md:mt-12">
-                  <Link href="/dashboard/cover-letter">
+                <Link href="/dashboard/cover-letter">
+                  <Button className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-6 rounded-full text-lg md:mt-12 cursor-pointer">
                     Create new Cover Letter
-                  </Link>
-                </Button>
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>

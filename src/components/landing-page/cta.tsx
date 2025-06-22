@@ -20,14 +20,14 @@ export default function CTA() {
           Createcover letter with EasyLetter in minutes.
         </p>
         <div className="mt-6 space-x-4 space-y-4 md:space-y-0 ">
-          <Button className="px-8 py-6 rounded-full font-medium text-md ">
-            <Link href="/dashboard/cover-letter">
-              Create Cover letter now
-            </Link>
-            <span>
-              <ArrowUpRightIcon className="w-12 h-12 text-white font-medium" />
-            </span>
-          </Button>
+          <Link href="/dashboard/cover-letter">
+            <Button className="px-8 py-6 rounded-full font-medium text-md cursor-pointer">
+                Create Cover letter now
+              <span>
+                <ArrowUpRightIcon className="w-12 h-12 text-white font-medium" />
+              </span>
+            </Button>
+          </Link>
           <Button className="px-8 py-6 text-black rounded-full font-medium text-md bg-transparent border border-black hover:bg-[#fe7a42]">
             Create Cover example
             <span>

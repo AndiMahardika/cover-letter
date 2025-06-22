@@ -9,10 +9,20 @@ import { SimpleEditor } from "@/components/tiptap-templates/simple/simple-editor
 import { Button } from "@/components/ui/button"
 import { useReactToPrint } from "react-to-print";
 
+export interface Generate {
+  coverLetter: string
+  compatibility: {
+    percentage: string
+    strong_match: string
+    experience_level: string
+    minor_gap: string
+  }
+}
+
 export default function CoverLetterPage() {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null)
   const [jobUrl, setJobUrl] = useState("")
-  const [generatedCoverLetter, setGeneratedCoverLetter] = useState("")
+  const [generatedCoverLetter, setGeneratedCoverLetter] = useState<Generate | null>(null)
   const [isGenerating, setIsGenerating] = useState(false)
 
   const editorRef = useRef<HTMLDivElement>(null)
@@ -61,9 +71,9 @@ export default function CoverLetterPage() {
             </CardHeader>
             <CardContent>
             { generatedCoverLetter ? (
-              <SimpleEditor key={generatedCoverLetter} text={generatedCoverLetter} editorRef={editorRef} />
+              <SimpleEditor key={generatedCoverLetter.coverLetter} text={generatedCoverLetter.coverLetter} editorRef={editorRef} />
             ) : (
-              <CoverLetterPreview coverLetter={generatedCoverLetter} isGenerating={isGenerating} />
+              <CoverLetterPreview isGenerating={isGenerating} />
               )
             }
             </CardContent>

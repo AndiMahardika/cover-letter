@@ -4,6 +4,7 @@ import type * as React from "react"
 import {
   History,
   Home,
+  Settings,
   StickyNote,
 } from "lucide-react"
 
@@ -50,6 +51,11 @@ const navigationItems: NavigationSection[] = [
         title: "History",
         url: "/dashboard/history",
         icon: History,
+      },
+      {
+        title: "Settings",
+        url: "/dashboard/settings",
+        icon: Settings,
       },
     ],
   }
@@ -115,9 +121,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarGroup> */}
       </SidebarContent>
 
-      <SidebarFooter>
+      {/* <SidebarFooter>
         <UserNav />
-      </SidebarFooter>
+      </SidebarFooter> */}
       <SidebarRail />
     </Sidebar>
   )

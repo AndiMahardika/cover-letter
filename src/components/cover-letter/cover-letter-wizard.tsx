@@ -10,15 +10,23 @@ import { FileUpload } from "./file-upload"
 import { useStepsStore } from "@/store/stepStore"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
 import { on } from "events"
+import { Generate } from "@/app/dashboard/cover-letter/page"
 
 interface CoverLetterWizardProps {
   uploadedFile: File | null
   setUploadedFile: (file: File | null) => void
   jobUrl: string
   setJobUrl: (url: string) => void
-  onGenerate: (coverLetter: string) => void
+  onGenerate: (coverLetter: Generate) => void
   isGenerating: boolean
   setIsGenerating: (generating: boolean) => void
+}
+
+interface Analysis {
+  percentage: number
+  strong_match: string[]
+  experience_level: string[]
+  minor_gap: string[]
 }
 
 export function CoverLetterWizard({
@@ -30,11 +38,12 @@ export function CoverLetterWizard({
   isGenerating,
   setIsGenerating,
 }: CoverLetterWizardProps) {
-  const { currentStep, nextStep, prevStep, setStep } = useStepsStore()
+  const { currentStep, nextStep } = useStepsStore()
   const [jobSource, setJobSource] = useState("")
   const [isLoadingUrl, setIsLoadingUrl] = useState(false)
   const [urlError, setUrlError] = useState<string | null>(null)
   const [language, setLanguage] = useState("english")
+  const [resultAnalysis, setResultAnalysis] = useState<Analysis | null>(null)
 
   const steps = [
     { number: 1, title: "Upload CV", description: "Upload your resume" },
@@ -107,11 +116,18 @@ export function CoverLetterWizard({
       const data = await res.json()
       console.log("Generated cover letter:", data)
       onGenerate(data)
+      setResultAnalysis(data.compatibility)
     } catch (error) {
       console.error("Error generating cover letter:", error)
     } finally {
       setIsGenerating(false)
     }
+  }
+
+  const getColorByPercentage = (percentage: number) => {
+    if (percentage < 50) return { from: "from-red-400", to: "to-red-600", bg: "bg-red-400", ring: "ring-red-400" }
+    if (percentage < 75) return { from: "from-yellow-400", to: "to-yellow-600", bg: "bg-yellow-400", ring: "ring-yellow-400" }
+    return { from: "from-green-400", to: "to-green-600", bg: "bg-green-400", ring: "ring-green-400" }
   }
 
   return (
@@ -244,6 +260,50 @@ export function CoverLetterWizard({
           </div>
         )}
       </div>
+      
+      {resultAnalysis && (() => {
+        const color = getColorByPercentage(resultAnalysis.percentage)
+        return (
+          <div className={`bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-4`}>
+            <div className="flex items-center justify-between mb-3">
+              <h4 className="text-sm font-semibold text-navy-900">CV-Job Match Analysis</h4>
+              <div className="flex items-center gap-2">
+                <div className={`w-12 h-12 rounded-full bg-gradient-to-r ${color.from} ${color.to} flex items-center justify-center ring-2 ${color.ring}`}>
+                  <span className="text-white font-bold text-sm">{resultAnalysis?.percentage}%</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div
+                  className={`h-2 rounded-full bg-gradient-to-r ${color.from} ${color.to}`}
+                  style={{ width: `${resultAnalysis?.percentage}%` }}
+                ></div>
+              </div>
+
+              <div className="text-xs text-gray-600 space-y-1">
+                <p className="flex items-center gap-2">
+                  <span>
+                    <strong>Strong match:</strong> {resultAnalysis?.strong_match || "No strong matches found"}
+                  </span>
+                </p>
+                <p className="flex items-center gap-2">
+                  <span>
+                    <strong>Experience level:</strong> {resultAnalysis?.experience_level || "No experience level matches found"}
+                  </span>
+                </p>
+                <p className="flex items-center gap-2">
+                  <span>
+                    <strong>Minor gap:</strong> {resultAnalysis?.minor_gap || "No minor gaps found"}
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
+        )
+      })()}
+
     </div>
   )
 }
