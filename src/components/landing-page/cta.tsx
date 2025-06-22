@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ArrowUpRightIcon, Layers3 } from "lucide-react";
+import Link from "next/link";
 
 export default function CTA() {
   return (
@@ -16,11 +17,13 @@ export default function CTA() {
       </div>
       <div>
         <p className="text-xl opacity-80 text-balance md:mt-8 mt-4">
-          Createcover letter with Cover Letter in minutes.
+          Createcover letter with EasyLetter in minutes.
         </p>
         <div className="mt-6 space-x-4 space-y-4 md:space-y-0 ">
           <Button className="px-8 py-6 rounded-full font-medium text-md ">
-            Create Cover letter now
+            <Link href="/dashboard/cover-letter">
+              Create Cover letter now
+            </Link>
             <span>
               <ArrowUpRightIcon className="w-12 h-12 text-white font-medium" />
             </span>

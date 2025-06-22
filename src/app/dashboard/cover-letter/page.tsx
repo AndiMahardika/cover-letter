@@ -56,7 +56,7 @@ export default function CoverLetterPage() {
                 <CardTitle className="text-navy-900">Cover Letter Preview</CardTitle>
                 <CardDescription>Your generated cover letter will appear here</CardDescription>
               </div>
-              <Button onClick={reactToPrintFn}>Download</Button>
+              { generatedCoverLetter && <Button onClick={reactToPrintFn}>Download</Button>}
             </div>
             </CardHeader>
             <CardContent>

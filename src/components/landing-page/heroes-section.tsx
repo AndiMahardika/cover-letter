@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Star, Play } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import Link from "next/link";
 
 export default function HeroSection() {
   return (
@@ -38,7 +39,7 @@ export default function HeroSection() {
             </p>
             <div className="flex items-center space-x-4 mb-0 lg:mb-8">
               <Button className="bg-black text-white hover:bg-gray-800 px-12 py-6 rounded-full">
-                Create new Cover Letter
+                <Link href="/dashboard/cover-letter">Create new Cover Letter</Link>
               </Button>
             </div>
           </div>

@@ -23,9 +23,9 @@ export default function ToolkitSection() {
                 AI-powered tools and resources to help you excel in your job
                 search and professional development.
               </p>
-              <Button className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-full text-lg">
+              {/* <Button className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-full text-lg">
                 Create new resume
-              </Button>
+              </Button> */}
             </div>
           </div>
         </div>

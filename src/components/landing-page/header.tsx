@@ -29,7 +29,7 @@ export default function Header() {
           </div>
           <div className="flex items-center space-x-4">
             <Button className="bg-purple-600 hover:bg-purple-700 text-gray-100 px-4 sm:px-6 text-sm rounded-full font-semibold">
-              Get Started
+              <Link href="/login">Get Started</Link>
             </Button>
             <Button 
               variant="ghost" 

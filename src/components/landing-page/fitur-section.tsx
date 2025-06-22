@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import Link from "next/link";
 
 export default function FiturSection() {
   return (
@@ -9,7 +10,7 @@ export default function FiturSection() {
           <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center mr-3">
             <div className="w-4 h-4 bg-white rounded"></div>
           </div>
-          <span className="text-gray-400">Everything about Resumio</span>
+          <span className="text-gray-400">Everything about EasyLetter</span>
         </div>
 
         <div className="mb-6">
@@ -29,7 +30,9 @@ export default function FiturSection() {
               </div>
               <div>
                 <Button className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-6 rounded-full text-lg md:mt-12">
-                  Create new cover letter
+                  <Link href="/dashboard/cover-letter">
+                    Create new Cover Letter
+                  </Link>
                 </Button>
               </div>
             </div>

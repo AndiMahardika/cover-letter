@@ -22,11 +22,11 @@ export default function HowSection() {
                   guidance, we make creating your cover letter simple and
                   effective.
                 </p>
-                <div className="flex space-x-4">
+                {/* <div className="flex space-x-4">
                   <Button className="bg-purple-600 hover:bg-purple-700 text-white rounded-full">
                     Create new cover letter
                   </Button>
-                </div>
+                </div> */}
               </div>
             </div>
             <div className="col-span-1">
