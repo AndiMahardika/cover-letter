@@ -5,7 +5,6 @@ export async function registerUser(formData: FormData) {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
 
-  // validate input
   if (!name || !email || !password) {
     return { success: false, error: "All fields are required" };
   }
@@ -17,12 +16,10 @@ export async function registerUser(formData: FormData) {
     };
   }
 
-  // create user
   try {
     const { data: user, error: errorSingUp } = await supabase.auth.signUp({
       email,
       password,
-
       options: {
         emailRedirectTo: `/`,
         data: {
@@ -37,6 +34,7 @@ export async function registerUser(formData: FormData) {
         error: "Something went wrong. Please try again",
       };
     }
+
     if (
       user?.user &&
       user.user.identities &&
@@ -46,9 +44,25 @@ export async function registerUser(formData: FormData) {
         success: false,
         error: "Email already exists. Please use a different email.",
       };
-    } else {
-      return { success: true };
     }
+
+    // ⬇️ INSERT ke tabel roles di sini
+    const userId = user.user?.id;
+
+    if (userId) {
+      const { error: roleError } = await supabase
+        .from("roles")
+        .insert({ user_id: userId, role: "user" })
+        .select()
+        .single();
+
+      if (roleError) {
+        console.error("Error inserting role:", roleError);
+        return { success: false, error: "User created, but failed to assign role." };
+      }
+    }
+
+    return { success: true };
   } catch (error) {
     console.error("Error creating user:", error);
     return { success: false, error: "Failed to create user", data: null };
@@ -80,8 +94,16 @@ export async function loginUser(formData: FormData) {
     //   access_token: data.session.access_token,
     //   refresh_token: data.session.refresh_token,
     // });
+    const userId = data.user?.id;
 
-    return { success: true, data };
+    const role = await supabase
+      .from("roles")
+      .select("role")
+      .eq("user_id", userId)
+      .single();
+    console.log("role", role.data?.role)
+
+    return { success: true, data, role };
   } catch (err) {
     console.error("Error logging in:", err);
     return { success: false, error: "Failed to login", data: null };

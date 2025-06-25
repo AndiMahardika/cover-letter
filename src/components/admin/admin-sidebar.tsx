@@ -1,90 +1,114 @@
-"use client"
+"use client";
 
-import type React from "react"
-
-import { Users, Settings, Home, LogOut, User, FileText } from "lucide-react"
-import Link from "next/link"
+import type * as React from "react";
+import { History, Home, Settings, StickyNote, User } from "lucide-react";
 
 import {
-    Sidebar,
-    SidebarContent,
-    SidebarFooter,
-    SidebarGroup,
-    SidebarGroupContent,
-    SidebarGroupLabel,
-    SidebarHeader,
-    SidebarMenu,
-    SidebarMenuButton,
-    SidebarMenuItem,
-    SidebarRail,
-} from "@/components/ui/sidebar"
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarRail,
+} from "@/components/ui/sidebar";
+import { usePathname } from "next/navigation";
 
-const navigationItems = [
-    {
+type NavigationItem = {
+  title: string;
+  url: string;
+  icon: React.ComponentType<any>;
+  isActive?: boolean;
+  badge?: string;
+};
+
+type NavigationSection = {
+  title: string;
+  items: NavigationItem[];
+};
+
+// Navigation data
+const navigationItems: NavigationSection[] = [
+  {
+    title: "Features",
+    items: [
+      {
         title: "Dashboard",
         url: "/admin",
         icon: Home,
-    },
-    {
-        title: "Manajemen User",
+        isActive: true,
+      },
+      {
+        title: "Manage Users",
         url: "/admin/users",
-        icon: Users,
-    }
-]
+        icon: User,
+      },
+      {
+        title: "Settings",
+        url: "/dashboard/settings",
+        icon: Settings,
+      },
+    ],
+  },
+];
 
-export function AdminSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-    return (
-        <Sidebar {...props}>
-            <SidebarHeader className="border-b border-sidebar-border">
-                <div className="flex items-center gap-2 px-4 py-2">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                        <FileText className="h-4 w-4" />
-                    </div>
-                    <div className="flex flex-col">
-                        <span className="text-sm font-semibold">EasyLetter</span>
-                        <span className="text-xs text-muted-foreground">Admin Panel</span>
-                    </div>
-                </div>
-            </SidebarHeader>
+export function AdminSidebar({
+  ...props
+}: React.ComponentProps<typeof Sidebar>) {
+  const pathname = usePathname();
 
-            <SidebarContent>
-                <SidebarGroup>
-                    <SidebarGroupLabel>Navigation</SidebarGroupLabel>
-                    <SidebarGroupContent>
-                        <SidebarMenu>
-                            {navigationItems.map((item) => (
-                                <SidebarMenuItem key={item.title}>
-                                    <SidebarMenuButton asChild>
-                                        <Link href={item.url}>
-                                            <item.icon className="h-4 w-4" />
-                                            <span>{item.title}</span>
-                                        </Link>
-                                    </SidebarMenuButton>
-                                </SidebarMenuItem>
-                            ))}
-                        </SidebarMenu>
-                    </SidebarGroupContent>
-                </SidebarGroup>
-            </SidebarContent>
+  return (
+    <Sidebar collapsible="icon" {...props}>
+      <SidebarHeader>
+        <div className="flex items-center gap-2 py-2">
+          <div className="flex p-2 items-center justify-center rounded-lg bg-navy-900">
+            <Home className="h-4 w-4 text-orange-500" />
+          </div>
+          <div className="grid flex-1 text-left text-sm leading-tight">
+            <span className="truncate font-semibold text-navy-900">
+              Dashboard
+            </span>
+          </div>
+        </div>
+      </SidebarHeader>
 
-            <SidebarFooter className="border-t border-sidebar-border">
-                <SidebarMenu>
-                    <SidebarMenuItem>
-                        <SidebarMenuButton>
-                            <User className="h-4 w-4" />
-                            <span>Admin User</span>
-                        </SidebarMenuButton>
-                    </SidebarMenuItem>
-                    <SidebarMenuItem>
-                        <SidebarMenuButton>
-                            <LogOut className="h-4 w-4" />
-                            <span>Logout</span>
-                        </SidebarMenuButton>
-                    </SidebarMenuItem>
-                </SidebarMenu>
-            </SidebarFooter>
+      <SidebarContent>
+        {navigationItems.map((section) => (
+          <SidebarGroup key={section.title}>
+            <SidebarGroupLabel className="text-navy-700 font-medium">
+              {section.title}
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {section.items.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={pathname === item.url}
+                      className="hover:bg-orange-50 hover:text-orange-600 data-[active=true]:bg-orange-100 data-[active=true]:text-orange-700"
+                    >
+                      <a href={item.url} className="flex items-center gap-2">
+                        <item.icon className="h-4 w-4" />
+                        <span>{item.title}</span>
+                        {item.badge && (
+                          <span className="ml-auto flex h-5 w-5 items-center justify-center rounded-full bg-orange-500 text-xs font-medium text-white">
+                            {item.badge}
+                          </span>
+                        )}
+                      </a>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        ))}
+      </SidebarContent>
 
-            <SidebarRail />
-        </Sidebar>
-    )
+      <SidebarRail />
+    </Sidebar>
+  );
 }
