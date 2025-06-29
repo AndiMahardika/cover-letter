@@ -12,7 +12,7 @@ import { useState, useTransition } from "react";
 import toast from "react-hot-toast";
 
 export default function Page() {
-const [isPending, startTransition] = useTransition();
+  const [isPending, startTransition] = useTransition();
   const [error, setError] = useState("");
   const router = useRouter();
 

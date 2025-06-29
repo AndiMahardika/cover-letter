@@ -70,5 +70,22 @@ export async function updateSession(request: NextRequest) {
   // If this is not done, you may be causing the browser and server to go out
   // of sync and terminate the user's session prematurely!
 
+  // dashboard-admin
+  if (user && request.nextUrl.pathname.startsWith('/admin')) {
+    const { data, error: roleError } = await supabase
+      .from('roles')
+      .select('role')
+      .eq('user_id', user.id)
+      .single()
+
+    const role = data?.role
+
+    if (role !== 'admin') {
+      const url = request.nextUrl.clone()
+      url.pathname = '/unauthorized' // atau buat 403 page
+      return NextResponse.redirect(url)
+    }
+  }
+
   return supabaseResponse
 }
