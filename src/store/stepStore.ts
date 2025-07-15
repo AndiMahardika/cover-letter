@@ -10,7 +10,7 @@ export type StepsStore = {
 }
 
 export const useStepsStore = create<StepsStore>((set) => ({
-  currentStep: 1,
+  currentStep: 3,
   setStep: (step) => set({ currentStep: step }),
   nextStep: () => set((state) => ({ currentStep: Math.min(state.currentStep + 1, 3) })),
   prevStep: () => set((state) => ({ currentStep: Math.max(state.currentStep - 1, 1) })),

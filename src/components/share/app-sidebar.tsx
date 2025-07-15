@@ -22,6 +22,7 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar"
 import { UserNav } from "./user-nav"
+import { usePathname } from "next/navigation"
 
 type NavigationItem = {
   title: string
@@ -45,23 +46,28 @@ const navigationItems: NavigationSection[] = [
         title: "Cover Letter",
         url: "/dashboard/cover-letter",
         icon: StickyNote,
-        isActive: true,
+        isActive: false,
       },
       {
         title: "History",
-        url: "/dashboard/history",
+        url: "/dashboard/history-page",
         icon: History,
+        isActive: false,
       },
       {
         title: "Settings",
         url: "/dashboard/settings",
         icon: Settings,
+        isActive: false,
       },
     ],
   }
 ]
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+
+  const pathname = usePathname()
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -85,7 +91,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton
                       asChild
-                      isActive={item.isActive}
+                      isActive={item.isActive || pathname === item.url}
                       className="hover:bg-orange-50 hover:text-orange-600 data-[active=true]:bg-orange-100 data-[active=true]:text-orange-700"
                     >
                       <a href={item.url} className="flex items-center gap-2">

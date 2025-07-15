@@ -44,6 +44,7 @@ export function CoverLetterWizard({
   const [urlError, setUrlError] = useState<string | null>(null)
   const [language, setLanguage] = useState("english")
   const [resultAnalysis, setResultAnalysis] = useState<Analysis | null>(null)
+  const [generateError, setGenerateError] = useState<string | null>(null)
 
   const steps = [
     { number: 1, title: "Upload CV", description: "Upload your resume" },
@@ -114,10 +115,11 @@ export function CoverLetterWizard({
         throw new Error(errorData.error || "Failed to generate cover letter")
       }
       const data = await res.json()
-      console.log("Generated cover letter:", data)
+      // console.log("Generated cover letter:", data)
       onGenerate(data)
       setResultAnalysis(data.compatibility)
     } catch (error) {
+      setGenerateError("Something went wrong. Try again later.")
       console.error("Error generating cover letter:", error)
     } finally {
       setIsGenerating(false)
@@ -256,7 +258,11 @@ export function CoverLetterWizard({
                   </SelectContent>
                 </Select>
               </div>
+
             </div>
+            {generateError && (
+              <p className="mt-1 text-sm text-red-600">{generateError}</p>
+            )}
           </div>
         )}
       </div>
