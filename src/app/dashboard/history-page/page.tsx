@@ -1,44 +1,48 @@
 "use client"
 
+import { SimpleEditor } from '@/components/tiptap-templates/simple/simple-editor'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import formatDate from '@/lib/formatDate'
+import { supabase } from '@/lib/supabaseClient'
 import { Calendar, FileText } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { useReactToPrint } from 'react-to-print'
 
-// Mock data for cover letters history
-const mockCoverLetters = [
-  {
-    id: 1,
-    name: "Software Engineer - TechCorp",
-    jobSource: "LinkedIn",
-    createdDate: "2024-01-15",
-    content: `Dear Hiring Manager,
-
-I am writing to express my strong interest in the Software Engineer position at TechCorp. With over 5 years of experience in full-stack development and a passion for creating innovative solutions, I am confident that I would be a valuable addition to your team.
-
-Throughout my career, I have developed expertise in:
-• React, Node.js, and TypeScript development
-• Cloud architecture using AWS and Azure
-• Agile development methodologies
-• Database design and optimization
-
-My recent project involved building a scalable e-commerce platform that handled over 100,000 daily transactions, demonstrating my ability to work with high-performance systems.
-
-I am particularly excited about TechCorp's commitment to innovation and would love to contribute to your upcoming AI initiatives.
-
-Thank you for considering my application.
-
-Best regards,
-John Doe`,
-    language: "English",
-  },
-]
+type History = {
+  id: number
+  user_id: number
+  date: string
+  title_letter: string
+  language: string
+  job_source: string
+  cover_letter: string
+}
 
 export default function HistoryPage() {
-  const [selectedLetter, setSelectedLetter] = useState(mockCoverLetters[0])
-  const [searchTerm, setSearchTerm] = useState("")
-  const [copied, setCopied] = useState(false)
+  const [selectedLetter, setSelectedLetter] = useState<History | null>(null)
+  const [history, setHistory] = useState<History[] | null>(null)
+  const editorRef = useRef<HTMLDivElement>(null)
+  const reactToPrintFn = useReactToPrint({ contentRef: editorRef });
+
+  const fetchDataHistory = async () => {
+    const { data: { user }, error } = await supabase.auth.getUser();
+    if (error || !user) {
+      console.error("Failed to fetch user profile");
+      return;
+    }
+
+    const userId = user.id
+    const { data: history } = await supabase.from("history").select("*").eq("user_id", userId)
+
+    if (error) {
+      console.error("Error fetching history:", error)
+      return
+    }
+    setHistory(history)
+    return
+  }
 
   const getJobSourceColor = (source: string) => {
     switch (source.toLowerCase()) {
@@ -53,11 +57,13 @@ export default function HistoryPage() {
     }
   }
 
-  const filteredLetters = mockCoverLetters.filter(
-    (letter) =>
-      letter.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      letter.jobSource.toLowerCase().includes(searchTerm.toLowerCase()),
-  )
+  const handleSelectLetter = (letter: History) => {
+    setSelectedLetter(letter)
+  }
+
+  useEffect(() => {
+    fetchDataHistory()
+  }, [])
   
   return (
     <div className='space-y-6'>
@@ -93,23 +99,24 @@ export default function HistoryPage() {
 
               {/* Cover Letters List */}
               <div className="space-y-2 max-h-[600px] overflow-y-auto">
-                {filteredLetters.map((letter) => (
+                {history?.map((letter) => (
                   <div
                     key={letter.id}
                     className={`p-4 rounded-lg border cursor-pointer transition-all hover:shadow-md border-gray-200 hover:border-gray-300`}
+                    onClick={() => handleSelectLetter(letter)}
                   >
                     <div className="space-y-2">
                       <div className="flex items-start justify-between gap-2">
-                        <h3 className="font-medium text-navy-900 text-sm leading-tight">{letter.name}</h3>
-                        <Badge variant="secondary" className={`text-xs ${getJobSourceColor(letter.jobSource)}`}>
-                          {letter.jobSource}
+                        <h3 className="font-medium text-navy-900 text-sm leading-tight">{letter.title_letter}</h3>
+                        <Badge variant="secondary" className={`text-xs ${getJobSourceColor(letter.job_source)}`}>
+                          {letter.job_source}
                         </Badge>
                       </div>
 
                       <div className="flex items-center gap-4 text-xs text-gray-500">
                         <div className="flex items-center gap-1">
                           <Calendar className="h-3 w-3" />
-                          <span>{formatDate(letter.createdDate)}</span>
+                          <span>{formatDate(letter.date)}</span>
                         </div>
                         <div className="flex items-center gap-1">
                           <FileText className="h-3 w-3" />
@@ -121,20 +128,41 @@ export default function HistoryPage() {
                 ))}
               </div>
 
-              {/* {filteredLetters.length === 0 && (
+              {history?.length === 0 && (
                 <div className="text-center py-8">
                   <FileText className="h-12 w-12 text-gray-300 mx-auto mb-3" />
                   <p className="text-gray-500">No cover letters found</p>
                   <p className="text-sm text-gray-400 mt-1">Try adjusting your search terms</p>
                 </div>
-              )} */}
+              )}
             </CardContent>
           </Card>
         </div>
 
         {/* right section - preview cover letter */}
         <div>
-
+        <Card className="h-fit">
+            <CardHeader>
+            <div className="flex items-center justify-between space-x-4">
+              <div className="">
+                <CardTitle className="text-navy-900">Cover Letter Preview</CardTitle>
+                <CardDescription>Your cover letter will appear here</CardDescription>
+              </div>
+              { selectedLetter && (
+                <>
+                  <Button onClick={reactToPrintFn}>Download</Button>
+                </>
+              )}
+            </div>
+            </CardHeader>
+            <CardContent>
+            { selectedLetter ? (
+              <SimpleEditor key={selectedLetter.cover_letter} text={selectedLetter.cover_letter} editorRef={editorRef} />
+            ) : (
+              <div className='text-center py-8'>no cover letter selected</div>
+            ) }
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>

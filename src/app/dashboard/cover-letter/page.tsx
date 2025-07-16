@@ -12,6 +12,8 @@ import { supabase } from "@/lib/supabaseClient"
 import toast from "react-hot-toast"
 
 export interface Generate {
+  jobSource: string
+  language: string
   coverLetter: string
   compatibility: {
     percentage: string
@@ -19,6 +21,7 @@ export interface Generate {
     experience_level: string
     minor_gap: string
   }
+  titleLetter: string
 }
 
 export default function CoverLetterPage() {
@@ -26,7 +29,7 @@ export default function CoverLetterPage() {
   const [jobUrl, setJobUrl] = useState("")
   const [generatedCoverLetter, setGeneratedCoverLetter] = useState<Generate | null>(null)
   const [isGenerating, setIsGenerating] = useState(false)
-  const [titleLetter, setTitleLetter] = useState("")
+
   const [userId, setUserId] = useState("")
   const [saved, setSaved] = useState(false)
 
@@ -41,13 +44,10 @@ export default function CoverLetterPage() {
     }
     setUserId(user.id);
   }
+
   useEffect(() => {
     fetchUserId();
-    if (localStorage.getItem("jobData")) {
-      const jobData = JSON.parse(localStorage.getItem("jobData") || "{}");
-      setTitleLetter(jobData.jobTitle + " - " + jobData.companyName)
-    }
-  }, [userId]);
+  }, []);
 
   const handleSaveHistory = async () => {
     if(userId) {
@@ -55,7 +55,9 @@ export default function CoverLetterPage() {
         .from("history")
         .insert({
           user_id: userId,
-          title_letter: titleLetter,
+          title_letter: generatedCoverLetter?.titleLetter,
+          language: generatedCoverLetter?.language,
+          job_source: generatedCoverLetter?.jobSource,
           cover_letter: generatedCoverLetter?.coverLetter,
           date: new Date().toISOString(),
         })
