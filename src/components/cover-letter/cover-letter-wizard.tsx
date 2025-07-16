@@ -9,7 +9,6 @@ import { Stepper } from "./stepper"
 import { FileUpload } from "./file-upload"
 import { useStepsStore } from "@/store/stepStore"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
-import { on } from "events"
 import { Generate } from "@/app/dashboard/cover-letter/page"
 
 interface CoverLetterWizardProps {
@@ -29,6 +28,18 @@ interface Analysis {
   minor_gap: string[]
 }
 
+interface JobData {
+  jobTitle: string
+  companyName: string
+  location: string
+  salary: string
+  requirements: string
+  skills: string[]
+  jobDetail: string
+  jobType: string
+  datePosted: string
+}
+
 export function CoverLetterWizard({
   uploadedFile,
   setUploadedFile,
@@ -44,6 +55,7 @@ export function CoverLetterWizard({
   const [urlError, setUrlError] = useState<string | null>(null)
   const [language, setLanguage] = useState("english")
   const [resultAnalysis, setResultAnalysis] = useState<Analysis | null>(null)
+  const [generateError, setGenerateError] = useState<string | null>(null)
 
   const steps = [
     { number: 1, title: "Upload CV", description: "Upload your resume" },
@@ -75,12 +87,11 @@ export function CoverLetterWizard({
         body: JSON.stringify({ url: jobUrl.trim(), jobSource }),
       });
       
-      const data = await res.json()
+      const data: JobData = await res.json()
 
       if (!res.ok) {
-        setUrlError(`${data.error || "Unknown error occurred."}`);
+        setUrlError("Something went wrong. Try again later.");
       } else {
-        // console.log("Crawl URL result:", data);
         localStorage.setItem("jobData", JSON.stringify(data));
         nextStep()
       }
@@ -94,7 +105,7 @@ export function CoverLetterWizard({
 
   const handleGenerate = async () => {
     const pdfText = localStorage.getItem("pdfText")
-    const jobData = localStorage.getItem("jobData")
+    const jobData: JobData = JSON.parse(localStorage.getItem("jobData") || "")
     
     setIsGenerating(true)
     try {
@@ -105,19 +116,22 @@ export function CoverLetterWizard({
         },
         body: JSON.stringify({
           cvText: pdfText,
-          jobData: jobData ? JSON.parse(jobData) : null,
+          jobData: jobData,
           language,
         }),
       })
       if (!res.ok) {
-        const errorData = await res.json()
-        throw new Error(errorData.error || "Failed to generate cover letter")
+        throw new Error("Failed to generate cover letter")
       }
       const data = await res.json()
-      console.log("Generated cover letter:", data)
+      // console.log("Generated cover letter:", data)
       onGenerate(data)
+      data.language = language
+      data.jobSource = jobSource
+      data.titleLetter = jobData.jobTitle + " - " + jobData.companyName
       setResultAnalysis(data.compatibility)
     } catch (error) {
+      setGenerateError("Something went wrong. Try again later.")
       console.error("Error generating cover letter:", error)
     } finally {
       setIsGenerating(false)
@@ -256,7 +270,11 @@ export function CoverLetterWizard({
                   </SelectContent>
                 </Select>
               </div>
+
             </div>
+            {generateError && (
+              <p className="mt-1 text-sm text-red-600">{generateError}</p>
+            )}
           </div>
         )}
       </div>
