@@ -19,7 +19,7 @@ export async function POST(req: Request) {
   const buffer = Buffer.from(bytes);
 
   const filename = `${uuidv4()}.pdf`;
-  const filePath = path.join(process.cwd(), "public", filename);
+  const filePath = path.join("/tmp", filename);
   await fs.writeFile(filePath, buffer);
 
   // Load PDF
