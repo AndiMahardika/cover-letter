@@ -3,7 +3,7 @@ export default function AuthPage({children}: {children: React.ReactNode}) {
     <div className="min-h-screen flex">
       <div className="hidden lg:flex lg:w-1/2 bg-navy-800 flex-col justify-between p-8">
           <h3 className="text-3xl font-bold text-slate-300 flex gap-x-2">
-            CoverLetter
+            EasyLetter
           </h3>
           <p className="text-slate-300 font-medium">
             "Your one-stop solution for creating professional cover letters effortlessly."

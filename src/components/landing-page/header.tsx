@@ -13,7 +13,7 @@ export default function Header() {
         <div className="flex items-center justify-between px-4 sm:px-6 py-4">
           <div className="flex items-center space-x-8">
             <div className="flex items-center space-x-2">
-              <span className="font-bold text-lg sm:text-xl">Cover Letter</span>
+              <span className="font-bold text-lg sm:text-xl">Easy Letter</span>
             </div>
             <nav className="hidden md:flex items-center space-x-6 text-sm">
               <div className="flex items-center space-x-1 hover:text-gray-300 cursor-pointer">
