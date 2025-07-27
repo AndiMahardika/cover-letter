@@ -27,7 +27,16 @@ export default function Page() {
 
       if (result?.success) {
         toast.success("Login successful!");
-        router.push("/dashboard/cover-letter");
+
+        setTimeout(() => {
+          router.push("/dashboard/cover-letter");
+          // router.push("/dashboard/cover-letter");
+          window.location.reload(); // opsional, jika masih bermasalah
+          // window.location.reload(); 
+          window.location.replace("/dashboard/cover-letter");
+        }, 500);
+
+        console.log("Login successful:", result);
       } else {
         const msg = result?.error || "An error occurred during login";
         setError(msg);
